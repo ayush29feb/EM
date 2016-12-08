@@ -2,8 +2,10 @@
 # Estimating means given the distributions are the normal distributions with variance 1
 # and the hursitic is that all distributions are equally likely
 
-import math
+import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.mlab as mlab
+import math
 
 # Expectation Calculator
 def expectation_zij(mu, x_i, mu_j):
@@ -36,9 +38,18 @@ def terminate_loglikelyhood(ll1, ll2, e):
 def format_data(filepath):
     f = open(filepath, "r")
     return [float(string) for string in f.read().split()]
-    
+
+def plot(x, mu, sigma, plotpath='plot.png'):
+    x_axis = np.linspace(min(x) * 0.8, max(x) * 1.2, 200)
+    y = [mlab.normpdf(x_axis, mu_j, sigma) for mu_j in mu]
+    for y_j in y:
+        plt.plot(x_axis, y_j)
+    plt.scatter(x, np.zeros(len(x)))
+    plt.savefig(plotpath)
+    plt.close()
+
 # The Algorithm
-def em(x):
+def em(x, plotpath='plot.png'):
     mu = initialize_mu(x)
     ll = loglikelyhood(x, mu)
     i = 1
@@ -56,13 +67,15 @@ def em(x):
     for i in range(len(x)):
         exps = [expectation_zij(mu, x[i], mu_j) for mu_j in mu]
         print '[' + str(i + 1) + ',]' + str(x[i]) + ' ' + str(exps)
-
+    
+    plot(x, mu, 1, plotpath)
 
 # Main
 def main():
-    em(format_data('data/dataset1.txt'))
-    em(format_data('data/dataset2.txt'))
-    em(format_data('data/unknown.txt'))
+    em(format_data('data/dataset1.txt'), 'plot1.png')
+    em(format_data('data/dataset2.txt'), 'plot2.png')
+    em(format_data('data/unknown.txt'), 'plot3.png')
+    em([35, 42, 9, 38, 27, 31, 11, 40, 32], 'plot4.png')
 
 if __name__ == "__main__":
     main()
