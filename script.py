@@ -60,7 +60,8 @@ def em(x):
 
 # Main
 def main():
-    em([35, 42, 9, 38, 27, 31, 11, 40, 32])
+    em([float(string) for string in raw_input('white spaced input data: ').split()])
+    # em([35, 42, 9, 38, 27, 31, 11, 40, 32])
     # em(format_data('data/dataset1.txt'))
     # em(format_data('data/dataset2.txt'))
     # em(format_data('data/unknown.txt'))
