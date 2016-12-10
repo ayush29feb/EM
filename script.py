@@ -36,33 +36,34 @@ def terminate_loglikelyhood(ll1, ll2, e):
 def format_data(filepath):
     f = open(filepath, "r")
     return [float(string) for string in f.read().split()]
-    
+
 # The Algorithm
 def em(x):
     mu = initialize_mu(x)
     ll = loglikelyhood(x, mu)
     i = 1
-    print str(i) + '] ' + str(mu) + ' ' + str(ll)
+    print "\t mu_1 \t mu_2 \t mu_3 \t loglihood"
+    print str(i) + '] ' + str(round(mu[0], 6)) + '\t' + str(round(mu[1], 6)) + '\t' + str(round(mu[2], 6)) + '\t' + str(round(ll, 6))
     while True:
         mu = maximize_mus(x, mu)
         ll_2 = loglikelyhood(x, mu)
         i += 1
-        print str(i) + '] ' + str(mu) + ' ' + str(ll_2)
+        print str(i) + '] ' + str(round(mu[0], 6)) + '\t' + str(round(mu[1], 6)) + '\t' + str(round(mu[2], 6)) + ' ' + str(round(ll_2, 6))
         if terminate_loglikelyhood(ll, ll_2, 0.001):
             break
         ll = ll_2
-    print '\n'
-    
+    print "\n\t x_i \t P(cls 1 | x_i) \t P(cls 2 | x_i) \t P(cls 3 | x_i) "
     for i in range(len(x)):
         exps = [expectation_zij(mu, x[i], mu_j) for mu_j in mu]
-        print '[' + str(i + 1) + ',]' + str(x[i]) + ' ' + str(exps)
+        print '[' + str(i + 1) + ',]\t' + str(x[i]) + '\t' + str(exps[0]) + '\t' + str(exps[1]) + '\t' + str(exps[2])
 
 
 # Main
 def main():
-    em(format_data('data/dataset1.txt'))
-    em(format_data('data/dataset2.txt'))
-    em(format_data('data/unknown.txt'))
+    em([35, 42, 9, 38, 27, 31, 11, 40, 32])
+    # em(format_data('data/dataset1.txt'))
+    # em(format_data('data/dataset2.txt'))
+    # em(format_data('data/unknown.txt'))
 
 if __name__ == "__main__":
     main()
