@@ -43,12 +43,12 @@ def em(x):
     ll = loglikelyhood(x, mu)
     i = 1
     print "\t mu_1 \t mu_2 \t mu_3 \t loglihood"
-    print str(i) + '] ' + str(round(mu[0], 6)) + '\t' + str(round(mu[1], 6)) + '\t' + str(round(mu[2], 6)) + '\t' + str(round(ll, 6))
+    print '[' + str(i) + ',] ' + str(round(mu[0], 6)) + '\t' + str(round(mu[1], 6)) + '\t' + str(round(mu[2], 6)) + '\t' + str(round(ll, 6))
     while True:
         mu = maximize_mus(x, mu)
         ll_2 = loglikelyhood(x, mu)
         i += 1
-        print str(i) + '] ' + str(round(mu[0], 6)) + '\t' + str(round(mu[1], 6)) + '\t' + str(round(mu[2], 6)) + ' ' + str(round(ll_2, 6))
+        print '[' + str(i) + ',] ' + str(round(mu[0], 6)) + '\t' + str(round(mu[1], 6)) + '\t' + str(round(mu[2], 6)) + ' ' + str(round(ll_2, 6))
         if terminate_loglikelyhood(ll, ll_2, 0.001):
             break
         ll = ll_2
@@ -60,7 +60,7 @@ def em(x):
 
 # Main
 def main():
-    em([float(string) for string in raw_input('white spaced input data: ').split()])
+    em([float(string) for string in raw_input('white spaced input data: ').strip().split()])
     # em([35, 42, 9, 38, 27, 31, 11, 40, 32])
     # em(format_data('data/dataset1.txt'))
     # em(format_data('data/dataset2.txt'))
